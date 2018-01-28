@@ -29,8 +29,8 @@ contract SimpleWallet {
 	function sendFunds(uint amount, address beneficiary) returns (uint) {
 		if(msg.sender == owner || isAllowedToSendFundsMapping[msg.sender]) {
 			if(this.balance >= amount) {
-				if(!receiver.send(amount)) {
-					throw; //if for whatever reason, the receiver.send(amount) function does not work, we roll things back
+				if(!beneficiary.send(amount)) {
+					throw; //if for whatever reason, the beneficiery.send(amount) function does not work, we roll things back
 				}
 				Withdrawal(msg.sender, amount, beneficiary); //emitting an event
 				return this.balance;
