@@ -2,7 +2,7 @@ contract SimpleWallet {
 
 	address owner;
 	// mapping will allow us to determine if someone is allowed to send funds
-	mapping(adress => bool) isAllowedToSendFundsMapping; 
+	mapping(address => bool) isAllowedToSendFundsMapping; 
 
 
 	// events for front-end display (note: underscores before variable names denote user input)
@@ -10,7 +10,7 @@ contract SimpleWallet {
 	event Withdrawal(address _sender, uint amount, address _beneficiary);
 
 	// constructor function
-	function simpleWallet() {
+	function SimpleWallet() {
 		owner = msg.sender; //setting the owner as the wallet creator so we know who created the contract (good practice in order to avoid mishaps like outsiders claiming ownership and doing something like deleting the contract)
 	}
 
@@ -54,7 +54,7 @@ contract SimpleWallet {
 
 	// a reader function to check if an address is allowed wallet access
 	function isAllowedToSend(address _address) constant returns (bool) {
-		return isAllowedToSendFundsMapping[_address] || msg.sender == owner;
+		return isAllowedToSendFundsMapping[_address] || _address == owner;
 	}
 
 	// self-destruct function that the owner can call which destroys the contract and deposits all remaining funds to the owner's wallet address
