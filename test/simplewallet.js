@@ -1,0 +1,22 @@
+var SimpleWallet = artifacts.require("./SimpleWallet.sol");
+
+contract('SimpleWallet', function(accounts) {
+
+	it('should allow owners to send funds', function() {
+		return SimpleWallet.deployed().then(function(instance) {
+			//we call the function isAllowedToSend and pass in accounts[0] which is the account that called the contract
+			return instance.isAllowedToSend.call(accounts[0]).then(function(isAllowed) {
+				assert.equal(isAllowed, true, 'the owner should have been allowed to send funds');
+			});
+		});
+	});
+
+	it('should prevent other accounts from sending funds', function() {
+		return SimpleWallet.deployed().then(function(instance) {
+			return instance.isAllowedToSend.call(accounts[1]).then(function(isAllowed) {
+				assert.equal(isAllowed, false, 'the other account was allowed to send funds');
+			});
+		});
+	});
+
+})
